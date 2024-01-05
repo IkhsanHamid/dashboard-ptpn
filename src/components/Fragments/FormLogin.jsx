@@ -7,7 +7,7 @@ export const FormLogin = () => {
     event.preventDefault();
     localStorage.setItem("email", event.target.Email.value);
     localStorage.setItem("password", event.target.Password.value);
-    window.location.href = "/product";
+    window.location.href = "/dashboard";
   };
 
   const emailRef = useRef(null);
