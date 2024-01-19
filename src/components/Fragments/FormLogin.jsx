@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import Button from "../Elements/Button";
 import { InputForm } from "../Elements/Input";
 import { useEffect, useRef } from "react";
@@ -5,23 +6,40 @@ import { useEffect, useRef } from "react";
 export const FormLogin = () => {
   const handleLogin = (event) => {
     event.preventDefault();
-    localStorage.setItem("email", event.target.Email.value);
-    localStorage.setItem("password", event.target.Password.value);
+    const enteredUsername = event.target.Username.value;
+    const enteredPassword = event.target.Password.value;
+
+    if (enteredUsername !== "ptpn" || enteredPassword !== "admin") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Invalid username or password. Please try again."
+      });
+      return;
+    }
+
+    localStorage.setItem("username", enteredUsername);
+    localStorage.setItem("password", enteredPassword);
+    Swal.fire({
+      icon: "success",
+      title: "Success Login!",
+    })
     window.location.href = "/dashboard";
   };
 
-  const emailRef = useRef(null);
+  const usernameRef = useRef(null);
   useEffect(() => {
-    emailRef.current.focus();
+    usernameRef.current.focus();
   }, []);
+
   return (
     <form onSubmit={handleLogin}>
       <InputForm
-        title="email"
-        type="email"
-        placeholder="example@gmail.com"
-        name="Email"
-        ref={emailRef}
+        title="username"
+        type="text"
+        placeholder="username"
+        name="Username"
+        ref={usernameRef}
       />
       <InputForm
         title="password"

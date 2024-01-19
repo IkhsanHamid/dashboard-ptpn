@@ -6,18 +6,36 @@ import { BsSearch } from "react-icons/bs";
 import { fetcher } from "../libs/utils/fetcher";
 // import { baseURL } from "../libs/utils/api";
 import LoadingBars from "../loading";
+import Swal from "sweetalert2";
 
 export const StatisticsPage = () => {
   const [detectionData, setDetectionData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const handleLogout = () => {
-    localStorage.removeItem("email");
-    localStorage.removeItem("password");
+  const handleLogout = async () => {
+    await Swal.fire({
+      title: "Are you sure?",
+      text: "You will logout!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Log Out!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Success Logout", "", "success");
+        // WARNING : hanya untuk development set timeout loading
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        localStorage.removeItem("email");
+        localStorage.removeItem("password");
 
-    // localStorage.removeItem("access_token")
-    // localStorage.removeItem("refresh_token")
-    window.location.href = "/";
+        // localStorage.removeItem("access_token")
+        // localStorage.removeItem("refresh_token")
+        window.location.href = "/";
+      } else {
+        Swal.fire("Error!", "Failed to log out. Please try again.", "error");
+      }
+    });
   };
 
   const dummyImageData = [
