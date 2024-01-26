@@ -2,9 +2,11 @@
 import Button from "../Elements/Button";
 
 export const Card = (props) => {
-  const { children } = props;
+  const { children, margin = "mt-10", padding = "p-10" } = props;
   return (
-    <div className="mt-10 p-10 bg-gray-300 rounded-lg shadow mx-2 flex flex-col justify-between">
+    <div
+      className={`${margin} ${padding} bg-gray-300 rounded-lg shadow mx-2 flex flex-col justify-between`}
+    >
       {children}
     </div>
   );
@@ -16,14 +18,14 @@ const Header = (props) => {
 };
 
 const Body = (props) => {
-  const { children, title } = props;
+  const { children, title, text = "text-xl" } = props;
   return (
     <div className="px-5 pb-5 h-full">
       <a href="">
-        <h5 className="text-xl font-semibold tracking-tight text-black">
+        <h5 className={`${text} font-semibold tracking-tight text-black`}>
           {title}
         </h5>
-        <p className="text-s text-black">{children}</p>
+        <p className="text-s text-center text-black">{children}</p>
       </a>
     </div>
   );
