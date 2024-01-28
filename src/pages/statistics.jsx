@@ -13,6 +13,7 @@ import CardTotalTBS from "../components/Fragments/CardTotalTBS";
 export const StatisticsPage = () => {
   const [detectionData, setDetectionData] = useState([]);
   const [fileDetection, setFileDetection] = useState([]);
+  const [timestamps, setTimestamps] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTimestamp, setSelectedTimestamp] = useState("");
 
@@ -72,10 +73,11 @@ export const StatisticsPage = () => {
             method: "GET",
           }
         );
+      } else {
+        files = await fetcher(`${baseURL}/api/detections/getFiles`, {
+          method: "GET",
+        });
       }
-      files = await fetcher(`${baseURL}/api/detections/getFiles`, {
-        method: "GET",
-      });
       setFileDetection(files);
     } catch (error) {
       alert(error.message);
@@ -89,6 +91,7 @@ export const StatisticsPage = () => {
       try {
         await getDetectionData();
         await filesData({ search: "" });
+        await handleTimeStamp();
       } catch (error) {
         alert(error.message);
       }
@@ -117,6 +120,17 @@ export const StatisticsPage = () => {
     try {
       await filesData({ search: selectedTimestamp });
       setSelectedTimestamp(selectedTimestamp);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const handleTimeStamp = async () => {
+    try {
+      let time = await fetcher(`${baseURL}/api/detections/getTimeStamp`, {
+        method: "GET",
+      });
+      setTimestamps(time);
     } catch (error) {
       alert(error.message);
     }
@@ -158,6 +172,7 @@ export const StatisticsPage = () => {
               selectedTimestamp={selectedTimestamp}
               fileDetection={fileDetection}
               handleTimestampChange={handleTimestampChange}
+              timestamps={timestamps}
             />
           </div>
         </Fragment>

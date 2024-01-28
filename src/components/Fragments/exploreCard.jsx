@@ -6,8 +6,9 @@ const ExploreCard = ({
   selectedTimestamp,
   fileDetection,
   handleTimestampChange,
+  timestamps,
 }) => {
-  const timestamp = fileDetection?.data?.map((file) => file.timestamp) || [];
+  const firstData = fileDetection.data && fileDetection.data[0];
   return (
     <Card>
       <Card.Header title="Explore" />
@@ -21,7 +22,7 @@ const ExploreCard = ({
           <option value="" disabled selected>
             Choose a timestamp
           </option>
-          {timestamp.map((value, index) => (
+          {timestamps.map((value, index) => (
             <option key={index} value={value}>
               {value}
             </option>
@@ -31,34 +32,32 @@ const ExploreCard = ({
       <div className="flex justify-center p-4">
         <Card.Body title="Image TBS Isi">
           <div className="flex flex-wrap">
-            {fileDetection.data.map((data, index) => (
-              <Fragment key={index}>
-                {data.file_paths?.tbs_isi[0] && (
+            {firstData?.file_paths?.tbs_isi &&
+              firstData.file_paths.tbs_isi.map((imageUrl, index) => (
+                <Fragment key={index}>
                   <img
-                    src={data.file_paths.tbs_isi[0]}
-                    alt={`Image TBS Isi 0`}
+                    src={imageUrl}
+                    alt={`Image TBS Isi ${index}`}
                     className="m-2"
                     style={{ width: "150px", height: "150px" }}
                   />
-                )}
-              </Fragment>
-            ))}
+                </Fragment>
+              ))}
           </div>
         </Card.Body>
         <Card.Body title="Image TBS Kosong">
           <div className="flex flex-wrap">
-            {fileDetection.data.map((data, index) => (
-              <Fragment key={index}>
-                {data.file_paths?.tbs_kosong[0] && (
+            {firstData?.file_paths?.tbs_kosong &&
+              firstData.file_paths.tbs_kosong.map((imageUrl, index) => (
+                <Fragment key={index}>
                   <img
-                    src={data.file_paths.tbs_kosong[0]}
-                    alt={`Image TBS Kosong 0`}
+                    src={imageUrl}
+                    alt={`Image TBS Kosong ${index}`}
                     className="m-2"
                     style={{ width: "150px", height: "150px" }}
                   />
-                )}
-              </Fragment>
-            ))}
+                </Fragment>
+              ))}
           </div>
         </Card.Body>
       </div>
@@ -79,6 +78,7 @@ ExploreCard.propTypes = {
     ),
   }).isRequired,
   handleTimestampChange: PropTypes.func.isRequired,
+  timestamps: PropTypes.func.isRequired,
 };
 
 export default ExploreCard;
